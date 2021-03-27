@@ -7,10 +7,17 @@ import * as d3_scale_chromatic from 'd3-scale-chromatic';
 import * as d3_time from 'd3-time';
 import * as d3_format from 'd3-time-format';
 import * as d3_collection from 'd3-collection';
+import Popup from '@flourish/popup';
+import TooltipTemplate from '../TooltipTemplate/tooltip-template';
+ 
+
 
 // CSS
 import calendar from './calendar-heatmap.css';
 
+// prep
+let lookup;
+const popup = Popup();
 const d3 = {
 	...d3_all,
 	...d3_time,
@@ -23,6 +30,18 @@ const d3 = {
 const calendarRows = function(month) {
 	const m = d3.timeMonth.floor(month);
 	return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m,1)).length;
+}
+
+
+function handleMouseenter(d) {
+	d3.select(this).classed('hover', true);
+
+	popup.point(event.pageX, event.pageY - 5).html(TooltipTemplate(d, lookup[d])).draw();
+}
+
+function handleMouseout(d) {
+	d3.select(this).classed('hover', false);
+	popup.hide();
 }
 
 const drawCalendar = (data, highlights) => {
@@ -42,6 +61,18 @@ const drawCalendar = (data, highlights) => {
 	const monthName = d3.timeFormat('%B');
 	const months = d3.timeMonth.range(d3.timeMonth.floor(minDate), maxDate);
 
+
+	// create lookup table & scale
+	lookup = d3.nest()
+		.key(d => d.date)
+		.rollup(leaves => leaves[0].value)
+		.object(data);
+
+	const scale = d3.scaleLinear()
+		.domain(d3.extent(data, d => d.value))
+		.range([0.4,1]); // the interpolate used for color expects a number in the range [0,1] but i don't want the lightest part of the color scheme
+
+	// draw the calendar
 	const svg = d3.select('#calendar').selectAll('svg')
 		.data(months)
 		.enter().append('svg')
@@ -72,28 +103,10 @@ const drawCalendar = (data, highlights) => {
 			.attr('y', d => ((week(d) - week(new Date(d.getFullYear(),d.getMonth(),1))) * cellSize) +
 				   ((week(d) - week(new Date(d.getFullYear(),d.getMonth(),1))) * cellMargin) +
 				   cellMargin + 20)
-			.on('mouseover', function(d) {
-				d3.select(this).classed('hover', true);
-			})
-			.on('mouseout', function(d) {
-				d3.select(this).classed('hover', false);
-			})
+			.on('mouseover', handleMouseenter)
+			.on('mouseout', handleMouseout)
 			.datum(format);
 
-	rect.append('title')
-		.text(function(d) { return titleFormat(new Date(d)); });
-
-	// lookup table for fill 
-	const lookup = d3.nest()
-		.key(d => d.date)
-		.rollup(leaves => leaves[0].value)
-		.object(data);
-
-	const scale = d3.scaleLinear()
-		.domain(d3.extent(data, d => d.value))
-		.range([0.4,1]); // the interpolate used for color expects a number in the range [0,1] but i don't want the lightest part of the color scheme
-
-		console.log(highlights)
 	rect.style('fill', d => d3.interpolatePuBu(scale(lookup[d])))
 		.attr('class', d => {
 			return highlights.includes(d) ? 'day anno' : 'day';
@@ -107,8 +120,6 @@ const drawCalendar = (data, highlights) => {
 			}
 				// doSomething();
 		})
-		.select('title')
-			.text(function(d) { return titleFormat(new Date(d)) + ':  ' + lookup[d]; });
 }
 
 export default { drawCalendar };
