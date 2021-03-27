@@ -1,40 +1,8 @@
 #app {
 	margin: 0 auto;
-	max-width: 500px;
+	max-width: 600px;
 }
 
-#app #cal-heatmap {
-	margin: 0 auto;
-	max-width: 250px;
-}
-
-#app .graph-label {
-	color: #6D6E70;
-	font-family: BentonSansCond-Bold, sans-serif;
-	font-size: 1rem;
-	text-transform: uppercase;
-}
-
-#app #cal-heatmap rect {
-	shape-rendering: geometricprecision;
-}
-
-/* income assistance weeks */
-#app #cal-heatmap rect.highlight {
-	stroke: #F6B31C;
-	stroke-width: 4px;
-}
-
-#cal-heatmap .ch-tooltip {
-	background: rgba(255,255,255,0.9);
-	color: #231F20;
-	font-family: BentonSansCond-Reg, sans-serif;
-	font-size: 0.8rem;
-	width: 175px;
-}
-#cal-heatmap .ch-tooltip:after {
-	border-top-color: rgba(255,255,255,0.9);
-}
 
 
 /* POSTMEDIA STYLES */

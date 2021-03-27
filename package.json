@@ -15,7 +15,14 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "cal-heatmap": "^3.6.2"
+    "cal-heatmap": "^3.6.2",
+    "d3": "^3.5.17",
+    "d3-collection": "^1.0.7",
+    "d3-scale": "^3.2.3",
+    "d3-scale-chromatic": "^2.0.0",
+    "d3-svg-annotation": "^2.5.1",
+    "d3-time": "^2.0.0",
+    "d3-time-format": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
