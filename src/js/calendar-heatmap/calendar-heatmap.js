@@ -16,7 +16,7 @@ import TooltipTemplate from '../TooltipTemplate/tooltip-template';
 import calendar from './calendar-heatmap.css';
 
 // prep
-let lookup;
+let lookup, dateParser, displayFormat;
 const popup = Popup();
 const d3 = {
 	...d3_all,
@@ -36,7 +36,9 @@ const calendarRows = function(month) {
 function handleMouseenter(d) {
 	d3.select(this).classed('hover', true);
 
-	popup.point(event.pageX, event.pageY - 5).html(TooltipTemplate(d, lookup[d])).draw();
+	const date = dateParser(d);
+
+	popup.point(event.pageX, event.pageY - 5).html(TooltipTemplate(displayFormat(date), lookup[d])).draw();
 }
 
 function handleMouseout(d) {
@@ -46,7 +48,7 @@ function handleMouseout(d) {
 
 const drawCalendar = (data, highlights) => {
 	// d3 date parsing handles timezones (yay!)
-	const dateParser = d3.timeParse('%Y-%m-%d')
+	dateParser = d3.timeParse('%Y-%m-%d')
 	const minDate = d3.min(data, d => dateParser(d.date));
 	const maxDate = d3.max(data, d => dateParser(d.date));
 
@@ -54,10 +56,10 @@ const drawCalendar = (data, highlights) => {
 	const cellSize = 20;
 	const monthLabelHeight = 20;
 
+	displayFormat = d3.timeFormat('%b. %d');
 	const day = d3.timeFormat('%w');
 	const week = d3.timeFormat('%U');
 	const format = d3.timeFormat('%Y-%m-%d');
-	const titleFormat = d3.utcFormat('%a, %d-%b');
 	const monthName = d3.timeFormat('%B');
 	const months = d3.timeMonth.range(d3.timeMonth.floor(minDate), maxDate);
 

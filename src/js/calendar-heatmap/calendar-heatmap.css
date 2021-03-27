@@ -1,57 +1,35 @@
 #calendar {
 	margin: 20px;
 }
-.month {
+#calendar .month {
 	margin-right: 8px;
 }
-.month-name {
+#calendar .month-name {
 	font-size: 85%;
 	fill: #777;
 	font-family: Arial, Helvetica;
 }
-.day.anno {
-	stroke: #F26B21;
-	stroke-width: 3px;
+#calendar .day.anno {
+	stroke: #F6B31C;
+	stroke-width: 4px;
 }
-.day.hover {
+#calendar .day.hover {
 	stroke: #6d6E70;
 	stroke-width: 2;
 }
-.day.focus {
+#calendar .day.focus {
 	stroke: #ffff33;
 	stroke-width: 2;
 }
 
-
-#app #cal-heatmap {
-	margin: 0 auto;
-	max-width: 250px;
-}
-
-#app .graph-label {
-	color: #6D6E70;
+#calendar .month-name {
+	color: #898B8E;
 	font-family: BentonSansCond-Bold, sans-serif;
-	font-size: 1rem;
+	font-size: 0.9rem;
 	text-transform: uppercase;
 }
 
-#app #cal-heatmap rect {
+#calendar rect {
 	shape-rendering: geometricprecision;
 }
 
-/* income assistance weeks */
-#app #cal-heatmap rect.highlight {
-	stroke: #F6B31C;
-	stroke-width: 4px;
-}
-
-#cal-heatmap .ch-tooltip {
-	background: rgba(255,255,255,0.9);
-	color: #231F20;
-	font-family: BentonSansCond-Reg, sans-serif;
-	font-size: 0.8rem;
-	width: 175px;
-}
-#cal-heatmap .ch-tooltip:after {
-	border-top-color: rgba(255,255,255,0.9);
-}
