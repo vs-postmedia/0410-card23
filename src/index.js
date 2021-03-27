@@ -7,11 +7,12 @@ import css from './css/main.css';
 // JS
 import CalendarHeatmap from './js/calendar-heatmap/calendar-heatmap';
 import data from './data/card23-data.json';
+import highlights from './data/card23-highlights.json';
 
 
 
 const init = async () => {
-	CalendarHeatmap.drawCalendar(data);
+	CalendarHeatmap.drawCalendar(data, highlights);
 };
 
 init();

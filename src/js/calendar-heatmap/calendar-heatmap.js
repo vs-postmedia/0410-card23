@@ -1,3 +1,5 @@
+// based on code from: https://bl.ocks.org/danbjoseph/3f42bb3f0ab6133cfc192e878c9030ed
+
 // JS
 import * as d3_all from 'd3';
 import * as d3_scale from 'd3-scale';
@@ -23,7 +25,7 @@ const calendarRows = function(month) {
 	return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m,1)).length;
 }
 
-const drawCalendar = (data) => {
+const drawCalendar = (data, highlights) => {
 	// d3 date parsing handles timezones (yay!)
 	const dateParser = d3.timeParse('%Y-%m-%d')
 	const minDate = d3.min(data, d => dateParser(d.date));
@@ -91,7 +93,11 @@ const drawCalendar = (data) => {
 		.domain(d3.extent(data, d => d.value))
 		.range([0.4,1]); // the interpolate used for color expects a number in the range [0,1] but i don't want the lightest part of the color scheme
 
+		console.log(highlights)
 	rect.style('fill', d => d3.interpolatePuBu(scale(lookup[d])))
+		.attr('class', d => {
+			return highlights.includes(d) ? 'day anno' : 'day';
+		})
 		.classed('clickable', true)
 		.on('click', function(d){
 			if(d3.select(this).classed('focus')){

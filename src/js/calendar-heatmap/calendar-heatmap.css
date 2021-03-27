@@ -9,6 +9,10 @@
 	fill: #777;
 	font-family: Arial, Helvetica;
 }
+.day.anno {
+	stroke: #F26B21;
+	stroke-width: 3px;
+}
 .day.hover {
 	stroke: #6d6E70;
 	stroke-width: 2;
