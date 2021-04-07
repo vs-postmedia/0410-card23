@@ -9,7 +9,7 @@
 	fill: #777;
 	font-family: Arial, Helvetica;
 }
-#calendar .day.anno {
+#calendar .day.ia-anno {
 	stroke: #F6B31C;
 	stroke-width: 4px;
 }
@@ -33,3 +33,95 @@
 	shape-rendering: geometricprecision;
 }
 
+
+/* ANNOTATIONS */
+#calendar .month {
+	display: block;
+}
+
+#annotations {
+	bottom: 0;
+	left: 0;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#annotations .annos {
+	left: 185px;
+	max-width: 175px;
+	position: absolute;
+}
+
+#annotations .yellow {
+	color: var(--yellow01);
+}
+
+#annotations .title {
+	color: var(--grey03);
+	font-family: BentonSansCond-RegItalic, sans-serif;
+	font-size: 0.9rem;
+}
+
+#annotations .date {
+	font-family: BentonSansCond-Bold, sans-serif;
+}
+#jan-anno {
+	top: 145px;
+}
+#ia-anno {
+	top: 330px;
+}
+#june-anno {
+	top: 840px;
+}
+
+#july-anno {
+	top: 975px;
+}
+
+#annotations .lead {
+	border-right: 1px solid var(--grey02);
+	border-top: 1px solid var(--grey02);
+	height: 10px;
+    transform: translateX(-40px);
+    width: 50px;
+}
+#jan-anno .lead {
+	transform: translateX(-60px);
+    width: 70px;
+}
+#ia-anno .lead {
+	transform: translateX(-80px);
+    width: 90px;
+}
+#june-anno .lead {
+	border-bottom: 1px solid var(--grey02);
+	border-top: none;
+    transform: translate(-40px, 70px);
+}
+#july-anno .lead {
+	border: 1px solid var(--grey02);
+	height: 135px;
+	position: absolute;
+    transform: translate(-170px, -10px);
+    width: 165px;
+}
+
+
+
+@media only screen and (min-width: 400px) {
+    /* Style adjustments for viewports that meet the condition */
+    #jan-anno {
+		top: 110px;
+	}
+    #ia-anno {
+    	top: 295px;
+    }
+    #june-anno {
+    	top: 810px;
+    }
+    #july-anno {
+    	top: 940px;
+    }
+}

@@ -8,6 +8,7 @@ import * as d3_time from 'd3-time';
 import * as d3_format from 'd3-time-format';
 import * as d3_collection from 'd3-collection';
 import Popup from '@flourish/popup';
+import * as d3_annotation from 'd3-svg-annotation';
 import TooltipTemplate from '../TooltipTemplate/tooltip-template';
  
 
@@ -16,6 +17,11 @@ import TooltipTemplate from '../TooltipTemplate/tooltip-template';
 import calendar from './calendar-heatmap.css';
 
 // prep
+let yOffset = 0;
+const cellMargin = 2;
+const cellSize = 20;
+const monthLabelHeight = 20;
+const monthMargin = 10;
 let lookup, dateParser, displayFormat;
 const popup = Popup();
 const d3 = {
@@ -24,7 +30,8 @@ const d3 = {
 	...d3_format,
 	...d3_collection,
 	...d3_scale,
-	...d3_scale_chromatic
+	...d3_scale_chromatic,
+	...d3_annotation
 };
 
 const calendarRows = function(month) {
@@ -32,13 +39,15 @@ const calendarRows = function(month) {
 	return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m,1)).length;
 }
 
-
 function handleMouseenter(d) {
-	d3.select(this).classed('hover', true);
-
 	const date = dateParser(d);
 
-	popup.point(event.pageX, event.pageY - 5).html(TooltipTemplate(displayFormat(date), lookup[d])).draw();
+	console.log(event)
+
+	d3.select(this).classed('hover', true);
+	popup.point([event.x, event.y - 5]).html(TooltipTemplate(displayFormat(date), lookup[d])).draw();
+
+	console.log(popup.point())
 }
 
 function handleMouseout(d) {
@@ -46,15 +55,12 @@ function handleMouseout(d) {
 	popup.hide();
 }
 
-const drawCalendar = (data, highlights) => {
+
+const drawCalendar = (data, annotations, highlights) => {
 	// d3 date parsing handles timezones (yay!)
 	dateParser = d3.timeParse('%Y-%m-%d')
 	const minDate = d3.min(data, d => dateParser(d.date));
 	const maxDate = d3.max(data, d => dateParser(d.date));
-
-	const cellMargin = 2;
-	const cellSize = 20;
-	const monthLabelHeight = 20;
 
 	displayFormat = d3.timeFormat('%b. %d');
 	const day = d3.timeFormat('%w');
@@ -72,28 +78,39 @@ const drawCalendar = (data, highlights) => {
 
 	const scale = d3.scaleLinear()
 		.domain(d3.extent(data, d => d.value))
-		.range([0.4,1]); // the interpolate used for color expects a number in the range [0,1] but i don't want the lightest part of the color scheme
+		.range([0.2,1]); // the interpolate used for color expects a number in the range [0,1] but i don't want the lightest part of the color scheme
 
 	// draw the calendar
-	const svg = d3.select('#calendar').selectAll('svg')
-		.data(months)
-		.enter().append('svg')
-		  .attr('class', 'month')
-		  .attr('width', (cellSize * 7) + (cellMargin * 8) )
-		  .attr('height', d => {
-			const rows = calendarRows(d);
-			return (cellSize * rows) + (cellMargin * (rows + 1)) + monthLabelHeight;
-		  })
-		.append('g')
+	const svg = d3.select('#calendar')
+		.append('svg')
+		.attr('height', 1800);
 
-	svg.append('text')
+	const g = svg.selectAll('g')
+		.data(months)
+		.enter().append('g')
+			.attr('class', 'month')
+			.attr('id', d => `${monthName(d).toLowerCase()}`)
+			.attr('width', (cellSize * 7) + (cellMargin * 8) )
+			.attr('height', d => {
+				const rows = calendarRows(d);
+				return (cellSize * rows) + (cellMargin * (rows + 1)) + monthLabelHeight;
+			})
+			.attr('transform', (d, i, elem) => {
+				const rows = calendarRows(d);
+				const height = (cellSize * rows) + (cellMargin * (rows + 1)) + monthLabelHeight + monthMargin;
+				yOffset += height;
+
+				return `translate(0, ${yOffset - height})`;
+			});
+
+	g.append('text')
 		.attr('class', 'month-name')
 		.attr('x', ((cellSize * 7) + (cellMargin * 8)) / 2 )
 		.attr('y', 15)
 		.attr('text-anchor', 'middle')
-		.text(d => monthName(d))
+		.text(d => monthName(d));
 
-	const rect = svg.selectAll('rect.day')
+	const rect = g.selectAll('rect.day')
 		.data((d, i) => d3.timeDays(d, new Date(d.getFullYear(), d.getMonth() + 1, 1)))
 		.enter().append('rect')
 			.attr('class', 'day')
@@ -109,19 +126,30 @@ const drawCalendar = (data, highlights) => {
 			.on('mouseout', handleMouseout)
 			.datum(format);
 
+	// colour calendar days
 	rect.style('fill', d => d3.interpolatePuBu(scale(lookup[d])))
-		.attr('class', d => {
-			return highlights.includes(d) ? 'day anno' : 'day';
-		})
-		.classed('clickable', true)
-		.on('click', function(d){
-			if(d3.select(this).classed('focus')){
-				d3.select(this).classed('focus', false);
-			} else {
-				d3.select(this).classed('focus', true)
-			}
-				// doSomething();
-		})
+		.attr('class', d => highlights.includes(d) ? 'day ia-anno' : 'day');
+
+
+	// add annotations
+	if (annotations.length > 0) {
+	}
+
+	// if (annotations.length > 0) {
+	// 	const annos = d3.annotation()
+	// 		.annotations(annotations)
+
+
+	// 	console.log(annos)
+		// const jan = d3.select('#january')
+		// 	.append('g')
+		// 	.attr('class', 'annotation')
+		// 	.call(annos)
+		
+	// 	// console.log(jan)	
+	// 	// 	
+	// 	// 	.call(anno)
+	// }
 }
 
 export default { drawCalendar };

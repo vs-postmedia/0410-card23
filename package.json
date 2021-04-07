@@ -1,6 +1,6 @@
 {
-  "name": "graphics-template",
-  "homepage": "https://vs-postmedia.github.io/graphics-template/",
+  "name": "0410-card23",
+  "homepage": "https://vs-postmedia.github.io/0410-card23/",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -16,7 +16,6 @@
   "dependencies": {
     "@babel/runtime": "^7.10.2",
     "@flourish/popup": "^2.1.5",
-    "cal-heatmap": "^3.6.2",
     "d3": "^3.5.17",
     "d3-collection": "^1.0.7",
     "d3-scale": "^3.2.3",
