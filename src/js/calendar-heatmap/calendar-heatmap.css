@@ -1,6 +1,11 @@
+/*#visualization {
+	position: relative;
+}*/
 #calendar {
 	margin: 20px;
 }
+
+
 #calendar .month {
 	margin-right: 8px;
 }
@@ -67,17 +72,28 @@
 	font-family: BentonSansCond-Bold, sans-serif;
 }
 #jan-anno {
-	top: 145px;
+	top: 55px;
+}
+#feb-anno {
+	top: 240px;
 }
 #ia-anno {
-	top: 330px;
+	top: 525px;
 }
 #june-anno {
-	top: 840px;
+	top: 750px;
 }
 
 #july-anno {
-	top: 975px;
+	top: 880px;
+}
+
+#totals-anno {
+	top: 1125px;
+}
+
+#ha-anno {
+	top: 1500px;
 }
 
 #annotations .lead {
@@ -90,6 +106,10 @@
 #jan-anno .lead {
 	transform: translateX(-60px);
     width: 70px;
+}
+#feb-anno .lead {
+	transform: translateX(-80px);
+    width: 90px;
 }
 #ia-anno .lead {
 	transform: translateX(-80px);
@@ -113,15 +133,15 @@
 @media only screen and (min-width: 400px) {
     /* Style adjustments for viewports that meet the condition */
     #jan-anno {
-		top: 110px;
+		top: 55px;
 	}
-    #ia-anno {
-    	top: 295px;
+	#feb-anno {
+    	top: 240px;
     }
     #june-anno {
-    	top: 810px;
+    	top:750px;
     }
     #july-anno {
-    	top: 940px;
+    	top: 883px;
     }
 }

@@ -42,12 +42,8 @@ const calendarRows = function(month) {
 function handleMouseenter(d) {
 	const date = dateParser(d);
 
-	console.log(event)
-
 	d3.select(this).classed('hover', true);
 	popup.point([event.x, event.y - 5]).html(TooltipTemplate(displayFormat(date), lookup[d])).draw();
-
-	console.log(popup.point())
 }
 
 function handleMouseout(d) {
