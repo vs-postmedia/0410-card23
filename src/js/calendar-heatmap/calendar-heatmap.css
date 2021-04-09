@@ -8,8 +8,8 @@
 }
 #app #legend {
 	position: absolute;
-	right: 0;
-	top: 0;
+	left: 225px;
+	top: 365px;
 }
 #app #legend p.title {
 	font-size: 0.8rem;
