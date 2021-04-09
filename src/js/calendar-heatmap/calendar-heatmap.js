@@ -39,6 +39,15 @@ const calendarRows = function(month) {
 	return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m,1)).length;
 }
 
+const drawLegend = function(svg) {
+
+	d3.select('#calendar').append('div')
+		.attr('id', 'legend')
+		.append('text')
+		.text('Calls per day')
+		// .style('transform', 'translate(200, 50)')
+}
+
 function handleMouseenter(d) {
 	const date = dateParser(d);
 
@@ -126,26 +135,8 @@ const drawCalendar = (data, annotations, highlights) => {
 	rect.style('fill', d => d3.interpolatePuBu(scale(lookup[d])))
 		.attr('class', d => highlights.includes(d) ? 'day ia-anno' : 'day');
 
-
-	// add annotations
-	if (annotations.length > 0) {
-	}
-
-	// if (annotations.length > 0) {
-	// 	const annos = d3.annotation()
-	// 		.annotations(annotations)
-
-
-	// 	console.log(annos)
-		// const jan = d3.select('#january')
-		// 	.append('g')
-		// 	.attr('class', 'annotation')
-		// 	.call(annos)
-		
-	// 	// console.log(jan)	
-	// 	// 	
-	// 	// 	.call(anno)
-	// }
+	// draw legend
+	// drawLegend(svg, scale);
 }
 
 export default { drawCalendar };

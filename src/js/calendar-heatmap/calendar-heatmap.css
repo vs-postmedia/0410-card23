@@ -3,10 +3,39 @@
 	max-width: 500px;
 	position: relative;
 }
-#calendar {
+#app #calendar {
 	margin: 20px;
 }
+#app #legend {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#app #legend p.title {
+	font-size: 0.8rem;
+	font-family: BentonSansCond-Bold, sans-serif;
+	margin-top: -3px;
+	transform: translateX(20px);
+}
 
+#app #legend p.legend-num {
+	font-size: 0.8rem;
+	font-family: BentonSansCond-Regular;
+	position: absolute;
+	right: 3px;
+}
+#app #legend p.legend-num.bottom {
+	bottom: -10px;
+}
+#app #legend p.legend-num.top {
+	top: 15px;
+}
+#app #legend #scale {
+	background: linear-gradient(#dbdaeb, #25629a);
+	height: 120px;
+	margin-left: 100%;
+	width: 20px;
+}
 
 #calendar .month {
 	margin-right: 8px;
@@ -14,7 +43,7 @@
 #calendar .month-name {
 	font-size: 85%;
 	fill: #777;
-	font-family: Arial, Helvetica;
+	font-family: BentonSansCond-Regular;
 }
 #calendar .day.ia-anno {
 	stroke: #F6B31C;
