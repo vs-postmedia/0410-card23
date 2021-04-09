@@ -1,7 +1,7 @@
 #app {
 	margin: 0 auto;
-	max-width: 500px;
-	position: relative;
+	max-width: 550px;
+	/*position: relative;*/
 }
 
 
@@ -33,6 +33,11 @@
 	font-family: BentonSansCond-Regular, Helvetica, sans-serif;
 	line-height: 1.3rem;
 	margin: 0;
+}
+
+#app .subhead {
+	font-family: Shift-Book, serif;
+	margin-bottom: 5px;
 }
 
 #app footer {

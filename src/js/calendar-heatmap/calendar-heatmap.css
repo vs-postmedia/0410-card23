@@ -1,6 +1,8 @@
-/*#visualization {
+#visualization {
+		margin: 0 auto;
+	max-width: 500px;
 	position: relative;
-}*/
+}
 #calendar {
 	margin: 20px;
 }
